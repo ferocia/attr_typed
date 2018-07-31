@@ -186,6 +186,65 @@ describe AttrTyped do
       end
     end
 
+    context "strict integer" do
+      let(:human) { TypeParsingTest.new }
+
+      before do
+        TypeParsingTest.attr_typed(identity_number: :strict_integer)
+        human.identity_number = identity_number
+      end
+
+      subject { human.identity_number }
+
+      context "integer value" do
+        let(:identity_number) { 100100110 }
+
+        it { is_expected.to eq(100100110) }
+      end
+
+      context "string value" do
+        let(:identity_number) { "2151812" }
+
+        it { is_expected.to eq(2151812) }
+      end
+
+      context "with nil" do
+        let(:identity_number) { nil }
+
+        it { is_expected.to be_nil }
+      end
+
+      context "with leading zeroes" do
+        let(:identity_number) { '00001234' }
+
+        it { is_expected.to eq(1234) }
+      end
+
+      context "with characters" do
+        let(:identity_number) { '00012345ABC65' }
+
+        it { is_expected.to be_nil }
+      end
+
+      context "with trailing space" do
+        let(:identity_number) { '123456 ' }
+
+        it { is_expected.to  eq(123456) }
+      end
+
+      context "with leading space" do
+        let(:identity_number) { ' 123456' }
+
+        it { is_expected.to eq(123456) }
+      end
+
+      context "with period" do
+        let(:identity_number) { '12345.' }
+
+        it { is_expected.to be_nil }
+      end
+    end
+
     context "money" do
       let(:human) { TypeParsingTest.new }
 
