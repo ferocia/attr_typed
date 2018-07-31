@@ -48,9 +48,9 @@ module AttrTyped
   end
 
   def parse_strict_integer(value)
-    return value if value.is_a?(Integer)
-    # remove leading zeroes to ensure Integer converts via base 10
-    Integer(value.to_s.gsub(/^0+/,''))
+    return value if value.nil? || value.is_a?(Integer)
+    # remove any leading zeroes to ensure Integer converts via base 10
+    Integer(value.to_s.strip.gsub(/^0*([1-9][0-9]*|0)$/,'\1'))
   rescue ArgumentError
     nil
   end

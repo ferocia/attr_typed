@@ -214,13 +214,37 @@ describe AttrTyped do
         it { is_expected.to be_nil }
       end
 
+      context "with single zero" do
+        let(:identity_number) { '0' }
+
+        it { is_expected.to eq(0) }
+      end
+
+      context "with multiples zeroes" do
+        let(:identity_number) { '00000' }
+
+        it { is_expected.to eq(0) }
+      end
+
       context "with leading zeroes" do
         let(:identity_number) { '00001234' }
 
         it { is_expected.to eq(1234) }
       end
 
-      context "with characters" do
+      context "with blank string" do
+        let(:identity_number) { '' }
+
+        it { is_expected.to be_nil }
+      end
+
+      context "with all characters" do
+        let(:identity_number) { 'ABC' }
+
+        it { is_expected.to be_nil }
+      end
+
+      context "with some characters" do
         let(:identity_number) { '00012345ABC65' }
 
         it { is_expected.to be_nil }
