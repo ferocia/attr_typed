@@ -17,7 +17,7 @@ require "date"
 #
 module AttrTyped
   ALLOWED_TYPES ||= [
-    :string, :money, :time, :big_decimal, :date, :integer, :boolean, :date_time
+    :string, :money, :time, :big_decimal, :date, :integer, :strict_integer, :boolean, :date_time
   ]
 
   def self.included(klass)
@@ -47,6 +47,14 @@ module AttrTyped
     value.to_i
   end
 
+  def parse_strict_integer(value)
+    return value if value.is_a?(Integer)
+    # remove leading zeroes to ensure Integer converts via base 10
+    Integer(value.to_s.gsub(/^0+/,''))
+  rescue ArgumentError
+    nil
+  end
+
   def parse_date(value)
     return value if value.is_a?(Date)
 
@@ -68,12 +76,16 @@ module AttrTyped
     return value.to_d if value.is_a?(Float)
 
     BigDecimal.new(value)
+  rescue ArgumentError
+    BigDecimal.new(0)
   end
 
   def parse_money(value)
     return value if value.is_a?(Money)
 
     Monetize.from_bigdecimal(BigDecimal.new(value.to_s))
+  rescue ArgumentError
+    Money.new(0)
   end
 
   def parse_time(value)
