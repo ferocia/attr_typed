@@ -6,8 +6,8 @@ require 'attr_typed/version'
 Gem::Specification.new do |spec|
   spec.name          = "attr_typed"
   spec.version       = AttrTyped::VERSION
-  spec.authors       = ["Anthony Langhorne"]
-  spec.email         = ["anthony.langhorne@ferocia.com.au"]
+  spec.authors       = ["Anthony Langhorne", "Tom Meier"]
+  spec.email         = ["anthony.langhorne@ferocia.com.au", "thomas.meier@ferocia.com.au"]
 
   spec.summary       = %q{Enforce attribute types at assignment time}
   spec.homepage      = "https://github.com/Ferocia/attr_typed"
