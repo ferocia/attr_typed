@@ -49,6 +49,7 @@ module AttrTyped
 
   def parse_strict_integer(value)
     return value if value.nil? || value.is_a?(Integer)
+    return value.to_i if value.is_a?(Float) || value.is_a?(BigDecimal)
     Integer(value, 10)
   rescue ArgumentError
     nil

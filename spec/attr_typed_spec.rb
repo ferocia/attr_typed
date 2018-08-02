@@ -202,6 +202,18 @@ describe AttrTyped do
         it { is_expected.to eq(100100110) }
       end
 
+      context "float value" do
+        let(:identity_number) { 18478.2774 }
+
+        it { is_expected.to eq(18478) }
+      end
+
+      context "big decimal value" do
+        let(:identity_number) { BigDecimal.new('18478.2774') }
+
+        it { is_expected.to eq(18478) }
+      end
+
       context "string value" do
         let(:identity_number) { "2151812" }
 
