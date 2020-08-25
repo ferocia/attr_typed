@@ -75,15 +75,15 @@ module AttrTyped
     return value if value.is_a?(BigDecimal)
     return value.to_d if value.is_a?(Float)
 
-    BigDecimal.new(value)
+    BigDecimal(value)
   rescue ArgumentError
-    BigDecimal.new(0)
+    BigDecimal(0)
   end
 
   def parse_money(value)
     return value if value.is_a?(Money)
 
-    Monetize.from_bigdecimal(BigDecimal.new(value.to_s))
+    Monetize.from_bigdecimal(BigDecimal(value.to_s))
   rescue ArgumentError
     Money.new(0)
   end
