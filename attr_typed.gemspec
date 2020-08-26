@@ -13,6 +13,8 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/Ferocia/attr_typed"
   spec.license       = "MIT"
 
+  spec.required_ruby_version = '>= 2.4.0'
+
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.require_paths = ["lib"]
 
