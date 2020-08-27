@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "monetize"
 require "money"
 require "bigdecimal"
@@ -16,9 +18,9 @@ require "date"
 #   - Due to the way string.to_f works in ruby, self.my_field = "cats" will equal $0.00
 #
 module AttrTyped
-  ALLOWED_TYPES ||= [
-    :string, :money, :time, :big_decimal, :date, :integer, :strict_integer, :boolean, :date_time
-  ]
+  ALLOWED_TYPES ||= %i[
+    string money time big_decimal date integer strict_integer boolean date_time
+  ].freeze
 
   def self.included(klass)
     klass.extend(ClassMethods)
@@ -31,9 +33,7 @@ module AttrTyped
   def parse_typed_value(value, type)
     public_send("parse_#{type}", value) unless value.nil?
   rescue ArgumentError => e
-    if AttrTyped.logger
-      AttrTyped.logger.error("Error parsing '#{value}' into a #{type}")
-    end
+    AttrTyped&.logger&.error("Error parsing '#{value}' into a #{type}")
     raise e
   end
 
@@ -50,6 +50,7 @@ module AttrTyped
   def parse_strict_integer(value)
     return value if value.nil? || value.is_a?(Integer)
     return value.to_i if value.is_a?(Float) || value.is_a?(BigDecimal)
+
     Integer(value, 10)
   rescue ArgumentError
     nil
@@ -100,7 +101,7 @@ module AttrTyped
     return if value.nil? && !value.is_a?(FalseClass)
     return value if value.is_a?(TrueClass) || value.is_a?(FalseClass)
 
-    ["true", "y"].include?(value.to_s.downcase)
+    %w[true y].include?(value.to_s.downcase)
   end
 
   # Class method attr_typed

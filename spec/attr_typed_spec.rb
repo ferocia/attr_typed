@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe AttrTyped do
@@ -123,29 +125,29 @@ describe AttrTyped do
       context "integer value" do
         let(:height) { 100 }
 
-        it { is_expected.to eq(BigDecimal.new(height)) }
+        it { is_expected.to eq(BigDecimal(height)) }
       end
 
       context "float value" do
         let(:height) { Float(10.10) }
 
-        it { is_expected.to eq(BigDecimal.new("10.10")) }
+        it { is_expected.to eq(BigDecimal("10.10")) }
       end
 
       context "string value" do
         let(:height) { "210" }
 
-        it { is_expected.to eq(BigDecimal.new("210")) }
+        it { is_expected.to eq(BigDecimal("210")) }
       end
 
       context "a non numeric string" do
         let(:height) { "words" }
 
-        it { is_expected.to eq(BigDecimal.new("0")) }
+        it { is_expected.to eq(BigDecimal("0")) }
       end
 
       context "with a big decimal" do
-        let(:height) { BigDecimal.new(120) }
+        let(:height) { BigDecimal(120) }
 
         it { is_expected.to eq(height) }
       end
@@ -197,27 +199,27 @@ describe AttrTyped do
       subject { human.identity_number }
 
       context "integer value" do
-        let(:identity_number) { 100100110 }
+        let(:identity_number) { 100_100_110 }
 
-        it { is_expected.to eq(100100110) }
+        it { is_expected.to eq(100_100_110) }
       end
 
       context "float value" do
-        let(:identity_number) { 18478.2774 }
+        let(:identity_number) { 18_478.2774 }
 
-        it { is_expected.to eq(18478) }
+        it { is_expected.to eq(18_478) }
       end
 
       context "big decimal value" do
-        let(:identity_number) { BigDecimal.new('18478.2774') }
+        let(:identity_number) { BigDecimal('18478.2774') }
 
-        it { is_expected.to eq(18478) }
+        it { is_expected.to eq(18_478) }
       end
 
       context "string value" do
         let(:identity_number) { "2151812" }
 
-        it { is_expected.to eq(2151812) }
+        it { is_expected.to eq(2_151_812) }
       end
 
       context "with nil" do
@@ -265,13 +267,13 @@ describe AttrTyped do
       context "with trailing space" do
         let(:identity_number) { '123456 ' }
 
-        it { is_expected.to  eq(123456) }
+        it { is_expected.to eq(123_456) }
       end
 
       context "with leading space" do
         let(:identity_number) { ' 123456' }
 
-        it { is_expected.to eq(123456) }
+        it { is_expected.to eq(123_456) }
       end
 
       context "with period" do
@@ -294,17 +296,17 @@ describe AttrTyped do
       context "integer value" do
         let(:savings) { 10 }
 
-        it { is_expected.to eq(Monetize.from_bigdecimal(BigDecimal.new(savings.to_s))) }
+        it { is_expected.to eq(Monetize.from_bigdecimal(BigDecimal(savings.to_s))) }
       end
 
       context "string value" do
         let(:savings) { "21" }
 
-        it { is_expected.to eq(Monetize.from_bigdecimal(BigDecimal.new(savings.to_s))) }
+        it { is_expected.to eq(Monetize.from_bigdecimal(BigDecimal(savings.to_s))) }
       end
 
       context "with a money object" do
-        let(:savings) { Monetize.from_bigdecimal(BigDecimal.new("12323.88")) }
+        let(:savings) { Monetize.from_bigdecimal(BigDecimal("12323.88")) }
 
         it { is_expected.to eq(savings) }
       end
@@ -331,7 +333,7 @@ describe AttrTyped do
 
       context "with no time zone set" do
         it "should raise an error" do
-          expect { human.created_at = "something" }.to raise_error
+          expect { human.created_at = "something" }.to raise_error(StandardError, "ActiveSupport with a time zone set is required")
         end
       end
 

@@ -1,5 +1,6 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+# frozen_string_literal: true
+
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'attr_typed/version'
 
@@ -9,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Anthony Langhorne", "Tom Meier"]
   spec.email         = ["anthony.langhorne@ferocia.com.au", "thomas.meier@ferocia.com.au"]
 
-  spec.summary       = %q{Enforce attribute types at assignment time}
+  spec.summary       = "Enforce attribute types at assignment time"
   spec.homepage      = "https://github.com/Ferocia/attr_typed"
   spec.license       = "MIT"
 
